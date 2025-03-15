@@ -14,7 +14,7 @@ function Header() {
 
   return (
     <div
-      className={`fixed top-15 sm:top-8 z-1000 dark:bg-[rgba(0,0,0,0.8)] flex flex-row pb-3 pt-3 bg-[rgba(255,255,255,0.8)]
+      className={`fixed top-13 sm:top-8 z-1000 dark:bg-[rgba(0,0,0,0.8)] flex flex-row pb-3 pt-3 bg-[rgba(255,255,255,0.8)]
         rounded-sm items-center justify-center backdrop-blur-sm w-sm sm:w-lg
         transition-opacity duration-1000 ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
