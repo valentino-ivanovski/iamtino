@@ -21,7 +21,7 @@ function IamTino() {
         <img src="src/assets/Bold/O.svg" alt="O" className="pl-0 pr-0 translate-x-[2px]" />
       </div>
       <div
-        className={`iamtino2 flex flex-row justify-center invert items-center mb-2 absolute scale-50 sm:scale-100 bg-transparent w-2/3 gap-2 z-0 cursor-pointer`} onClick={handleClick} >
+        className={`iamtino2 flex flex-row justify-center dark:invert items-center mb-2 absolute scale-50 sm:scale-100 bg-transparent w-2/3 gap-2 z-0 cursor-pointer`} onClick={handleClick} >
         <img src="src/assets/Serif/I.svg" alt="I" className={`pr-5 pl-0 -translate-x-[3px] transition-all duration-100 ${showAllSerif ? 'opacity-100' : 'opacity-0 hover:opacity-100'}`} />
         <img src="src/assets/Serif/A.svg" alt="A" className={`pl-5 pr-0 pb-1 translate-x-[4px] transition-all duration-100 ${showAllSerif ? 'opacity-100' : 'opacity-0 hover:opacity-100'}`} />
         <img src="src/assets/Serif/M.svg" alt="M" className={`pr-5 pl-0 -translate-x-[3px] transition-all duration-100 ${showAllSerif ? 'opacity-100' : 'opacity-0 hover:opacity-100'}`} />
