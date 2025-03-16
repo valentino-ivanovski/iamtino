@@ -51,35 +51,45 @@ function Projects() {
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   const translateX = useRef(0);
   const lastScrollLeft = useRef(0);
+  const animationFrame = useRef(null);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    let animationFrame;
-
     const smoothScroll = () => {
       if (isAutoScroll && !isUserScrolling) {
-        translateX.current -= 1.5;
+        translateX.current -= 1; // Reduced speed from 1.5 to 1 for smoother rendering
         scrollContainer.style.transform = `translateX(${translateX.current}px)`;
 
         const contentWidth = scrollContainer.scrollWidth / 2;
         if (Math.abs(translateX.current) >= contentWidth) {
           translateX.current = 0;
+          scrollContainer.style.transition = 'none'; // Disable transition for instant reset
+          scrollContainer.style.transform = `translateX(0px)`;
+          requestAnimationFrame(() => {
+            scrollContainer.style.transition = 'transform 0.1s linear'; // Re-enable transition
+          });
         }
 
-        animationFrame = requestAnimationFrame(smoothScroll);
+        animationFrame.current = requestAnimationFrame(smoothScroll);
       }
     };
 
     if (isAutoScroll && !isUserScrolling) {
-      animationFrame = requestAnimationFrame(smoothScroll);
+      scrollContainer.style.transition = 'transform 0.1s linear'; // Smooth transition
+      animationFrame.current = requestAnimationFrame(smoothScroll);
     } else {
+      scrollContainer.style.transition = 'none';
       scrollContainer.style.transform = "translateX(0)";
       scrollContainer.scrollLeft = lastScrollLeft.current;
     }
 
-    return () => cancelAnimationFrame(animationFrame);
+    return () => {
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
   }, [isAutoScroll, isUserScrolling]);
 
   const handleScroll = () => {
@@ -104,6 +114,7 @@ function Projects() {
       if (prev) {
         const scrollContainer = scrollRef.current;
         if (scrollContainer) {
+          scrollContainer.style.transition = 'none';
           scrollContainer.style.transform = "translateX(0)";
           scrollContainer.scrollLeft = lastScrollLeft.current;
         }
@@ -123,10 +134,7 @@ function Projects() {
           onScroll={handleScroll}
           onTouchEnd={handleScrollEnd}
           onMouseUp={handleScrollEnd}
-          className="inline-flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 sm:min-w-max w-full sm:w-auto transition-transform"
-          style={{ 
-            ...(isAutoScroll ? {} : { transform: 'translateX(0)' })
-          }}
+          className="inline-flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 sm:min-w-max w-full sm:w-auto will-change-transform"
         >
           {displayedProjects.map((project, index) => (
             <div
@@ -139,6 +147,7 @@ function Projects() {
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover cursor-pointer dark:brightness-85 rounded-md"
+                  loading="lazy" // Added lazy loading
                 />
               </div>
               <div className="text-center font-['Generic-G50'] text-black dark:text-white">
@@ -169,12 +178,13 @@ function Projects() {
           display: none;
         }
         .scrollbar-hide {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none; /* IE and Edge */
+          scrollbar-width: none; /* Firefox */
           -webkit-overflow-scrolling: touch;
         }
-        .min-w-max {
-          min-width: max-content;
+        .will-change-transform {
+          will-change: transform;
+          transform: translateZ(0); /* Force GPU acceleration */
         }
       `}</style>
     </div>
