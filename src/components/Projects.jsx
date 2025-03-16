@@ -82,12 +82,15 @@ function Projects() {
     setIsAutoScroll((prev) => !prev);
   };
 
+  // Determine which projects to display based on auto-scroll state
+  const displayedProjects = isAutoScroll ? projects.concat(projects) : projects;
+
   return (
     <div className="relative w-screen overflow-hidden">
       {/* Scrolling Container */}
       <div ref={scrollRef} className="w-full overflow-x-auto scrollbar-hide scroll-smooth">
         <div className="flex flex-nowrap gap-8 p-8 min-w-max">
-          {projects.concat(projects).map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <div key={index} className="flex-shrink-0 w-[425px] sm:w-[625px] flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-4 pb-7">
               <div className="w-full h-[380px] mb-4">
                 <img
