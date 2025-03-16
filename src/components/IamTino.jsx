@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-function IamTino() {
+function IamTino({ onIntroComplete }) {
   const [showAllSerif, setShowAllSerif] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [introPhase, setIntroPhase] = useState(0); // 0: initial, 1: bold shown, 2: serif animating, 3: complete
-
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const [introPhase, setIntroPhase] = useState(0); // 0: initial, 1: bold shown, 2: serif animating, 3: complete, 4: final phase
 
   // Handle intro animation
   useEffect(() => {
@@ -22,33 +11,37 @@ function IamTino() {
       setIntroPhase(1);
     }, 300);
 
-    // Start serif animation after 1s
+    // Start serif animation after 1.5s
     const serifTimer = setTimeout(() => {
       setIntroPhase(2);
     }, 1500);
 
-    // Complete animation after all serif letters are shown (adjust timing based on sequence)
+    // Complete animation after all serif letters are shown
     const completeTimer = setTimeout(() => {
       setIntroPhase(3);
-    }, 3000); //
+      if (onIntroComplete) onIntroComplete(); // Notify parent when intro is done
+    }, 3000);
+
+    // Final phase to change duration back to 200ms
+    const finalPhaseTimer = setTimeout(() => {
+      setIntroPhase(4);
+    }, 3100);
 
     return () => {
       clearTimeout(boldTimer);
       clearTimeout(serifTimer);
       clearTimeout(completeTimer);
+      clearTimeout(finalPhaseTimer);
     };
-  }, []);
+  }, [onIntroComplete]);
 
   const handleClick = () => {
-    if (introPhase === 3) { // Only allow clicking after intro
+    if (introPhase === 4) { // Only allow clicking after final phase
       setShowAllSerif((prev) => !prev);
     }
   };
 
-  const boldTransform = `translateY(${-scrollY * 0.6}px)`;
-  const serifTransform = `translateY(${-scrollY * 0.6}px)`;
-
-  // Serif letter animation delays (0.2s between each letter)
+  // Serif letter animation delays (0.1s between each letter)
   const serifLetters = [
     { src: 'src/assets/Serif/I.svg', alt: 'I', className: 'pr-5 pl-0 -translate-x-[3px]', delay: 0 },
     { src: 'src/assets/Serif/A.svg', alt: 'A', className: 'pl-5 pr-0 pb-1 translate-x-[4px]', delay: 0.1 },
@@ -65,7 +58,6 @@ function IamTino() {
         className={`flex flex-row justify-center items-center dark:invert absolute scale-50 sm:scale-100 bg-transparent w-2/3 gap-4 transition-opacity duration-500 ${
           introPhase >= 1 ? 'opacity-100' : 'opacity-0'
         }`}
-        style={{ transform: boldTransform, transition: 'transform 0.1s ease-out, opacity 0.5s ease-in' }}
       >
         <img src="src/assets/Bold/I.svg" alt="I" className="pr-5 pl-0 translate-x-[-5px]" />
         <img src="src/assets/Bold/A.svg" alt="A" className="pl-5 pr-0 translate-x-[5px]" />
@@ -77,9 +69,8 @@ function IamTino() {
       </div>
       <div
         className={`iamtino2 flex flex-row justify-center dark:invert items-center mb-2 absolute scale-50 sm:scale-100 bg-transparent w-2/3 gap-2 z-0 ${
-          introPhase === 3 ? 'cursor-pointer' : 'cursor-default'
+          introPhase === 4 ? 'cursor-pointer' : 'cursor-default'
         }`}
-        style={{ transform: serifTransform, transition: 'transform 0.1s ease-out' }}
         onClick={handleClick}
       >
         {serifLetters.map((letter, index) => (
@@ -87,18 +78,18 @@ function IamTino() {
             key={index}
             src={letter.src}
             alt={letter.alt}
-            className={`${letter.className} transition-all duration-500 ${
-              introPhase === 2
-                ? 'opacity-0' // Start hidden during animation phase
-                : introPhase === 3
+            className={`${letter.className} transition-all ${
+              introPhase === 2 || introPhase === 3
+                ? 'duration-500 opacity-0' // Start hidden during animation phase with 500ms duration
+                : introPhase === 4
                 ? showAllSerif
-                  ? 'opacity-100'
-                  : 'opacity-0 hover:opacity-100'
+                  ? 'duration-200 opacity-100' // After final phase, 200ms duration
+                  : 'duration-200 opacity-0 hover:opacity-100'
                 : 'opacity-0'
             }`}
             style={{
               transitionDelay: introPhase === 2 ? `${letter.delay}s` : '0s',
-              opacity: introPhase === 2 && scrollY === 0 ? 1 : undefined, // Show during animation
+              opacity: introPhase === 2 ? 1 : undefined, // Show during animation
             }}
           />
         ))}
