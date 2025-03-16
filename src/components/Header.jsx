@@ -28,19 +28,19 @@ function Header() {
     >
       <nav className="flex flex-row justify-between gap-13 sm:gap-16 sm:gap-36 text-md mt-1">
         <ul
-          className="cursor-pointer text-sm text-black dark:text-white"
+          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
           onClick={() => scrollToSection("HOME")}
         >
           HOME
         </ul>
         <ul
-          className="cursor-pointer text-sm text-black dark:text-white"
+          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
           onClick={() => scrollToSection("PROJECTS")}
         >
           PROJECTS
         </ul>
         <ul
-          className="cursor-pointer text-sm text-black dark:text-white"
+          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
           onClick={() => scrollToSection("ABOUT")}
         >
           ABOUT

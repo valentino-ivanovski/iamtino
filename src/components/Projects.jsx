@@ -60,12 +60,12 @@ function Projects() {
                 onClick={() => window.open(project.link, "_blank")}
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover cursor-pointer"
+                className="w-full h-full object-cover cursor-pointer dark:brightness-85"
               />
             </div>
             <div className="text-center font-['Generic-G50'] text-black dark:text-white">
-              <h3 className="text-2xl mb-2 cursor-default tracking-wider">{project.title}</h3>
-              <p className="text-lg opacity-100 cursor-default max-w-md">{project.description}</p>
+              <h3 className="text-2xl mb-2 cursor-default tracking-wider dark:brightness-85">{project.title}</h3>
+              <p className="text-lg opacity-100 cursor-default max-w-md dark:brightness-85">{project.description}</p>
             </div>
           </div>
         ))}
