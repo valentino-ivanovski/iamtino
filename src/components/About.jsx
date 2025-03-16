@@ -7,7 +7,7 @@ function About() {
 
   return (
     <div className="flex flex-col items-center justify-center transform translate-y-3">
-      <p className="text-center cursor-default text-md w-2/3 dark:text-white text-black">
+      <p className="text-center cursor-default text-md w-3/4 sm:w-2/3 dark:text-white text-black">
         Hey, my name is Valentino Ivanovski, a 23 year old senior year Computer Science student at UP FAMNIT. I started my programming journey back in 2021, after being interested in 3D Modeling and Graphics Design since 2015. This resulted in my desire to develop aesthetic websites while paying attention even to the slightest of details.
         <br/>
         <br/>
@@ -15,8 +15,9 @@ function About() {
         <br/>
         <br/>
         <a href="https://a.dropoverapp.com/cloud/download/207f18c1-22f5-44f9-bc10-d1a7de9b1802/b4385080-b0bd-47a6-8fc5-425330866f38" target="_blank" rel="noopener noreferrer">
-          <u className="text-black dark:text-white">Download my resume.</u>
-        </a>
+          <u className="text-black dark:text-white">Download my resume</u>
+        </a>  or
+        <a href="mailto:valentino.ivanovski@icloud.com"> <u className='text-black dark:text-white'>reach out.</u></a><br/>
       </p>
       <div className="flex space-x-4 mt-4">
         <a href="https://instagram.com/valentino.ivanovski" target="_blank" rel="noopener noreferrer">
