@@ -23,7 +23,7 @@ function App() {
         <IamTino />
         <StickyText />
       </div>
-      <div id='PROJECTS' className="flex flex-col items-center min-h-screen bg-white">
+      <div id='PROJECTS' className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
         <Projects />
       </div>
       <div id='ABOUT' className="flex flex-col justify-center items-center min-h-screen bg-white dark:bg-black">

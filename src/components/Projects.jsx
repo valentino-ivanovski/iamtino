@@ -7,28 +7,33 @@ const projects = [
     description: "Mandelbrot set explorer made in Java, featuring a custom GUI which can run in sequential, parallel or distributed mode.",
   },
   {
-    title: "Project 2",
-    image: "src/assets/soundshift.png",
-    description: "Unconventional e-commerce platform",
-  },
-  {
-    title: "Project 3",
-    image: "src/assets/pokedex.png",
-    description: "Glitchy portfolio showcase",
-  },
+      title: "Project 3",
+      image: "src/assets/pokedex.png",
+      description: "Glitchy portfolio showcase",
+    },
+    {
+      title: "Project 5",
+      image: "src/assets/realestate.png",
+      description: "Distorted landing page concept",
+    },
+    {
+      title: "Project 2",
+      image: "src/assets/soundshift.png",
+      description: "Unconventional e-commerce platform",
+    },
   {
     title: "Project 4",
-    image: "path/to/image4.jpg",
+    image: "src/assets/todolist.png",
     description: "Raw social media dashboard",
   },
   {
     title: "Project 5",
-    image: "path/to/image5.jpg",
+    image: "src/assets/realestate.png",
     description: "Distorted landing page concept",
   },
   {
     title: "Project 6",
-    image: "path/to/image6.jpg",
+    image: "src/assets/pushups.png",
     description: "Anti-UI web application",
   },
 ];
@@ -49,9 +54,9 @@ function Projects() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="text-center font-['Generic-G50'] text-black dark:text-black">
+            <div className="text-center font-['Generic-G50'] text-black dark:text-white">
               <h3 className="text-2xl mb-2 tracking-wider">{project.title}</h3>
-              <p className="text-lg opacity-80 max-w-md">{project.description}</p>
+              <p className="text-lg opacity-100 max-w-md">{project.description}</p>
             </div>
           </div>
         ))}

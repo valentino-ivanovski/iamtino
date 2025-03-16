@@ -19,7 +19,7 @@ function StickyText() {
 
   return (
     <div
-      className={`fixed bottom-8 z-50 cursor-default flex pb-3 pt-3 text-sm dark:text-white sm:text-left text-center text-black -translate-x-0 sm:-translate-x-140
+      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 sm:left-36 sm:transform-none rounded-md p-3 backdrop-blur-md z-50 cursor-default flex pb-3 pt-3 text-sm dark:text-white text-center sm:text-left text-black
         transition-opacity duration-500 ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
       <p>

@@ -2,33 +2,11 @@ import { useState, useEffect } from "react";
 
 function Header() {
   const [visible, setVisible] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false); // New state to track scrolling
 
   // Handle visibility after 3.5s
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 3500);
     return () => clearTimeout(timer);
-  }, []);
-
-  // Handle scroll detection
-  useEffect(() => {
-    let scrollTimeout;
-
-    const handleScroll = () => {
-      setIsScrolling(true); // Set scrolling to true when scroll starts
-
-      // Clear previous timeout and set a new one
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false); // Set scrolling to false after 250ms of no scrolling
-      }, 250); // Adjust this delay as needed
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(scrollTimeout); // Clean up timeout on unmount
-    };
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -42,11 +20,11 @@ function Header() {
 
   return (
     <div
-      className={`fixed top-13 sm:top-8 z-1000 dark:bg-[rgba(0,0,0,0.7)] flex flex-row pb-3 pt-3 bg-[rgba(255,255,255,0.7)]
-        rounded-sm items-center justify-center backdrop-blur-sm w-sm sm:w-lg
+      className={`fixed top-13 sm:top-8 z-1000 flex flex-row pb-3 pt-3
+        rounded-sm items-center justify-center backdrop-blur-md w-sm sm:w-lg
         transition-all duration-400 ${
-          isScrolling ? "shadow-[0px_2px_8px_rgba(0,0,0,0.1)]" : "shadow-none"
-        } ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          visible ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
     >
       <nav className="flex flex-row justify-between gap-16 sm:gap-36 text-md mt-1">
         <ul
