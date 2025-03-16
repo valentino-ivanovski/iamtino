@@ -13,7 +13,7 @@ const projects = [
   },
   {
     title: "Project 3",
-    image: "path/to/image3.jpg",
+    image: "src/assets/pokedex.png",
     description: "Glitchy portfolio showcase",
   },
   {
