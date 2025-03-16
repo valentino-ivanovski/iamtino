@@ -14,3 +14,31 @@ body {
 ::-webkit-scrollbar {
     display: none;
 }
+
+/* src/App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar styling */
+.overflow-x-auto::-webkit-scrollbar {
+  @apply h-3;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  @apply bg-red-900 border-2 border-white;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  @apply bg-white border border-black;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-200;
+}
+
+/* Font import - adjust path as needed */
+@font-face {
+  font-family: 'Generic-G50';
+  src: url('/path/to/generic-g50.woff2') format('woff2');
+}

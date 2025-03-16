@@ -2,10 +2,19 @@ import { useState, useEffect } from "react";
 
 function StickyText() {
   const [visible, setVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 3500);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -15,7 +24,8 @@ function StickyText() {
     >
       <p>
         VALENTINO IVANOVSKI <br />
-        JUNIOR SOFTWARE DEVELOPER
+        JUNIOR SOFTWARE DEVELOPER <br />
+        {currentTime.toLocaleString()}
       </p>
     </div>
   );
