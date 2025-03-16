@@ -64,8 +64,8 @@ function Projects() {
               />
             </div>
             <div className="text-center font-['Generic-G50'] text-black dark:text-white">
-              <h3 className="text-2xl mb-2 tracking-wider">{project.title}</h3>
-              <p className="text-lg opacity-100 max-w-md">{project.description}</p>
+              <h3 className="text-2xl mb-2 cursor-default tracking-wider">{project.title}</h3>
+              <p className="text-lg opacity-100 cursor-default max-w-md">{project.description}</p>
             </div>
           </div>
         ))}
