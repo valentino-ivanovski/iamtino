@@ -115,7 +115,7 @@ function Projects() {
   const displayedProjects = isAutoScroll ? projects.concat(projects) : projects;
 
   return (
-    <div className="relative w-screen overflow-hidden transform -translate-y-10 sm:-translate-y-0">
+    <div className="relative w-screen flex flex-col justify-center h-screen overflow-hidden transform">
       {/* Scrolling Container */}
       <div className="w-full overflow-x-auto scrollbar-hide scroll-smooth">
         <div
@@ -123,7 +123,7 @@ function Projects() {
           onScroll={handleScroll}
           onTouchEnd={handleScrollEnd}
           onMouseUp={handleScrollEnd}
-          className="flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 transform will-change-transform transition-transform"
+          className="flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 transform will-change-transform transition-transform"
         >
           {displayedProjects.map((project, index) => (
             <div
@@ -154,7 +154,7 @@ function Projects() {
       </div>
 
       {/* Pause Button Below Projects */}
-      <div className="pt-4 text-center">
+      <div className="transform translate-y-0 sm:-translate-y-3 text-center">
         <span
           onClick={toggleAutoScroll}
           className="underline cursor-pointer text-black dark:text-white transition-all duration-200"
