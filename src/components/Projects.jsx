@@ -123,7 +123,7 @@ function Projects() {
           onScroll={handleScroll}
           onTouchEnd={handleScrollEnd}
           onMouseUp={handleScrollEnd}
-          className="inline-flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 min-w-max transition-transform"
+          className="inline-flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 sm:min-w-max w-full sm:w-auto transition-transform"
           style={{ 
             ...(isAutoScroll ? {} : { transform: 'translateX(0)' })
           }}

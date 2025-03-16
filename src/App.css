@@ -43,8 +43,3 @@ body {
   src: url('/path/to/generic-g50.woff2') format('woff2');
 }
 
-.animate-infinite-scroll {
-  /* or */
-  animation: infinite-scroll 60s linear infinite; /* Slower */
-}
-
