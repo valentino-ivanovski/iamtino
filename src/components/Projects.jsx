@@ -48,7 +48,9 @@ const projects = [
 function Projects() {
   const scrollRef = useRef(null);
   const [isAutoScroll, setIsAutoScroll] = useState(true);
-  const scrollPosition = useRef(0); // Store current scroll position
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
+  const translateX = useRef(0);
+  const lastScrollLeft = useRef(0);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -57,38 +59,77 @@ function Projects() {
     let animationFrame;
 
     const smoothScroll = () => {
-      if (isAutoScroll) {
-        scrollContainer.scrollLeft += 1.5;
-        scrollPosition.current = scrollContainer.scrollLeft;
+      if (isAutoScroll && !isUserScrolling) {
+        translateX.current -= 1.5;
+        scrollContainer.style.transform = `translateX(${translateX.current}px)`;
 
-        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
-          scrollContainer.scrollLeft = 0;
+        const contentWidth = scrollContainer.scrollWidth / 2;
+        if (Math.abs(translateX.current) >= contentWidth) {
+          translateX.current = 0;
         }
 
         animationFrame = requestAnimationFrame(smoothScroll);
       }
     };
 
-    if (isAutoScroll) {
+    if (isAutoScroll && !isUserScrolling) {
       animationFrame = requestAnimationFrame(smoothScroll);
     } else {
-      scrollContainer.scrollLeft = scrollPosition.current; // Restore position when paused
+      scrollContainer.style.transform = "translateX(0)";
+      scrollContainer.scrollLeft = lastScrollLeft.current;
     }
 
     return () => cancelAnimationFrame(animationFrame);
-  }, [isAutoScroll]);
+  }, [isAutoScroll, isUserScrolling]);
 
-  const toggleAutoScroll = () => {
-    setIsAutoScroll((prev) => !prev);
+  const handleScroll = () => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    if (!isAutoScroll) {
+      lastScrollLeft.current = scrollContainer.scrollLeft;
+    } else if (isAutoScroll && !isUserScrolling) {
+      setIsUserScrolling(true);
+    }
   };
 
+  const handleScrollEnd = () => {
+    if (isAutoScroll) {
+      setTimeout(() => setIsUserScrolling(false), 500);
+    }
+  };
+
+  const toggleAutoScroll = () => {
+    setIsAutoScroll((prev) => {
+      if (prev) {
+        const scrollContainer = scrollRef.current;
+        if (scrollContainer) {
+          scrollContainer.style.transform = "translateX(0)";
+          scrollContainer.scrollLeft = lastScrollLeft.current;
+        }
+      }
+      return !prev;
+    });
+  };
+
+  const displayedProjects = isAutoScroll ? projects.concat(projects) : projects;
+
   return (
-    <div className="relative w-screen overflow-hidden">
+    <div className="relative w-screen overflow-hidden transform -translate-y-10 sm:-translate-y-0">
       {/* Scrolling Container */}
-      <div ref={scrollRef} className="w-full overflow-x-auto scrollbar-hide scroll-smooth">
-        <div className="flex flex-nowrap scale-75 sm:scale-100 gap-8 p-8 min-w-full transform -translate-x-10">
-          {projects.concat(projects).map((project, index) => (
-            <div key={index} className="flex-shrink-0 w-[625px] flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-4 pb-7">
+      <div className="w-full overflow-x-auto scrollbar-hide scroll-smooth">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          onTouchEnd={handleScrollEnd}
+          onMouseUp={handleScrollEnd}
+          className="flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 transform will-change-transform transition-transform"
+        >
+          {displayedProjects.map((project, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-[625px] flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-4 pb-7"
+            >
               <div className="w-full h-[380px] mb-4">
                 <img
                   onClick={() => window.open(project.link, "_blank")}
@@ -107,12 +148,17 @@ function Projects() {
               </div>
             </div>
           ))}
+          {/* Spacer for padding at the end when auto-scroll is off */}
+          {!isAutoScroll && <div className="flex-shrink-0 w-8 h-1"></div>}
         </div>
       </div>
 
       {/* Pause Button Below Projects */}
       <div className="pt-4 text-center">
-        <span onClick={toggleAutoScroll} className="underline cursor-pointer text-black dark:text-white transition-all duration-200">
+        <span
+          onClick={toggleAutoScroll}
+          className="underline cursor-pointer text-black dark:text-white transition-all duration-200"
+        >
           AUTO-SCROLL: {isAutoScroll ? "ON" : "OFF"}
         </span>
       </div>
@@ -120,6 +166,12 @@ function Projects() {
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
+        }
+        .scrollbar-hide {
+          -webkit-overflow-scrolling: touch;
+        }
+        .will-change-transform {
+          will-change: transform;
         }
       `}</style>
     </div>
