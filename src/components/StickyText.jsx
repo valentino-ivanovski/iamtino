@@ -19,12 +19,14 @@ function StickyText() {
 
   return (
     <div
-      className={`fixed bottom-8 left-1/2 transform -translate-x-1/2 sm:left-36 sm:transform-none rounded-md p-3 backdrop-blur-md z-50 cursor-default flex pb-3 pt-3 text-sm dark:text-white text-center sm:text-left text-black
+      className={`fixed bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 sm:left-36 sm:transform-none rounded-md p-2 sm:p-3 backdrop-blur-md z-50 cursor-default flex flex-col items-center sm:items-start text-xs sm:text-sm dark:text-white text-black
         transition-opacity duration-500 ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
-      <p>
-        VALENTINO IVANOVSKI <br />
-        JUNIOR SOFTWARE DEVELOPER <br />
+      <p className="text-center sm:text-left">
+        VALENTINO IVANOVSKI
+        <br />
+        <span className="hidden sm:inline">JUNIOR SOFTWARE DEVELOPER</span>
+        <br className="hidden sm:block" />
         {currentTime.toLocaleString()}
       </p>
     </div>

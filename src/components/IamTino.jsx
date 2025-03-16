@@ -54,7 +54,7 @@ function IamTino({ onIntroComplete }) {
   ];
 
   return (
-    <div className="flex justify-center items-center relative dark:bg-black w-screen h-screen">
+    <div className="flex justify-center items-center relative dark:bg-black scale-80 sm:scale-100 w-screen h-screen">
       <div
         className={`flex flex-row justify-center items-center dark:invert absolute scale-50 sm:scale-100 bg-transparent w-2/3 gap-4 transition-opacity duration-500 ${
           introPhase >= 1 ? 'opacity-100' : 'opacity-0'

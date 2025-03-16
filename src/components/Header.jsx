@@ -20,13 +20,13 @@ function Header() {
 
   return (
     <div
-      className={`fixed top-13 sm:top-8 z-1000 flex flex-row pb-3 pt-3
-        rounded-sm items-center justify-center backdrop-blur-md w-sm sm:w-lg
+      className={`fixed top-8 z-1000 flex flex-row pb-3 pt-3
+        rounded-sm items-center justify-center backdrop-blur-md w-80 sm:w-lg
         transition-all duration-400 ${
           visible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
     >
-      <nav className="flex flex-row justify-between gap-16 sm:gap-36 text-md mt-1">
+      <nav className="flex flex-row justify-between gap-13 sm:gap-16 sm:gap-36 text-md mt-1">
         <ul
           className="cursor-pointer text-sm text-black dark:text-white"
           onClick={() => scrollToSection("HOME")}

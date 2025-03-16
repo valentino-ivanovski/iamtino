@@ -55,7 +55,7 @@ function Projects() {
             key={index}
             className="flex-shrink-0 w-[600px] flex flex-col items-center"
           >
-            <div className="w-full h-[380px] bg-transparent mb-4 hover:scale-[1.02] transition-transform duration-500">
+            <div className="w-full h-[380px] bg-transparent mb-4 transition-transform duration-500">
               <img 
                 onClick={() => window.open(project.link, "_blank")}
                 src={project.image}
