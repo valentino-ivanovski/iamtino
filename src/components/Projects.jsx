@@ -5,36 +5,37 @@ const projects = [
     title: "Mandelbrot Set Explorer",
     image: "src/assets/mandelbrot.png",
     description: "Mandelbrot set explorer made in Java, featuring a custom GUI which can run in sequential, parallel or distributed mode.",
+    link: "https://github.com/valentino-ivanovski/mandelbrotset.v1",
   },
   {
-      title: "Project 3",
-      image: "src/assets/pokedex.png",
-      description: "Glitchy portfolio showcase",
-    },
-    {
-      title: "Project 5",
-      image: "src/assets/realestate.png",
-      description: "Distorted landing page concept",
-    },
-    {
-      title: "Project 2",
-      image: "src/assets/soundshift.png",
-      description: "Unconventional e-commerce platform",
-    },
-  {
-    title: "Project 4",
-    image: "src/assets/todolist.png",
-    description: "Raw social media dashboard",
+    title: "Pokédex in React",
+    image: "src/assets/pokedex.png",
+    description: "Pokédex recreated in React, featuring a search bar, pagination and a detailed view of each Pokémon. Data fetched from PokéAPI.",
+    link: "https://tino-pokedex.netlify.app",
   },
   {
-    title: "Project 5",
+    title: "Real Estate Landing Page",
     image: "src/assets/realestate.png",
-    description: "Distorted landing page concept",
+    description: "Made with HTML, CSS and JavaScript. Features a responsive modern and professional design.",
+    link: "https://luxestate-project.netlify.app",
   },
   {
-    title: "Project 6",
+    title: "Soundshift",
+    image: "src/assets/soundshift.png",
+    description: "Music discovery platform with user creation, music recommendations and suggestions, YouTube music embedding and much more.",
+    link: "https://github.com/valentino-ivanovski/Soundshift",
+  },
+  {
+    title: "Evil Puhsup Challenge",
     image: "src/assets/pushups.png",
-    description: "Anti-UI web application",
+    description: "MacOS menu bar app that helps you do pushups every hour featuring a timer, notifications and progress tracking. Made with Swift and SwiftUI.",
+    link: "https://github.com/valentino-ivanovski/pushupApp",
+  },
+  {
+    title: "To-do List",
+    image: "src/assets/todolist.png",
+    description: "Just a simple to-do list application made with React.",
+    link: "https://todotino.netlify.app",
   },
 ];
 
@@ -47,11 +48,12 @@ function Projects() {
             key={index}
             className="flex-shrink-0 w-[600px] flex flex-col items-center"
           >
-            <div className="w-full h-[380px] bg-transparent mb-4 hover:scale-102 transition-transform duration-500">
+            <div className="w-full h-[380px] bg-transparent mb-4 hover:scale-[1.02] transition-transform duration-500">
               <img 
+                onClick={() => window.open(project.link, "_blank")}
                 src={project.image}
                 alt={project.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover cursor-pointer"
               />
             </div>
             <div className="text-center font-['Generic-G50'] text-black dark:text-white">
