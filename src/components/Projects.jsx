@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 // Import images
 import MandelbrotImage from '../assets/mandelbrot.png';
 import PokedexImage from '../assets/pokedex.png';
@@ -47,10 +47,21 @@ const projects = [
 ];
 
 function Projects() {
+  const scrollRef = useRef(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const duplicatedProjects = [...projects, ...projects];
+
+  const toggleScroll = () => {
+    setIsPaused(prev => !prev);
+  };
+
   return (
-    <div className="w-screen overflow-x-auto">
-      <div className="flex flex-nowrap gap-8 p-8 min-w-max">
-        {projects.map((project, index) => (
+    <div className="w-screen overflow-hidden">
+      <div 
+        ref={scrollRef}
+        className={`flex flex-nowrap gap-8 p-8 min-w-max animate-infinite-scroll ${isPaused ? 'paused' : ''}`}
+      >
+        {duplicatedProjects.map((project, index) => (
           <div 
             key={index}
             className="flex-shrink-0 w-[600px] flex flex-col items-center"
@@ -64,12 +75,46 @@ function Projects() {
               />
             </div>
             <div className="text-center font-['Generic-G50'] text-black dark:text-white">
-              <h3 className="text-2xl mb-2 cursor-default tracking-wider dark:brightness-85">{project.title}</h3>
-              <p className="text-lg opacity-100 cursor-default max-w-md dark:brightness-85">{project.description}</p>
+              <h3 
+                className="text-2xl mb-2 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300"
+              >
+                {project.title}
+              </h3>
+              <p className="text-lg opacity-100 cursor-default max-w-md dark:brightness-85">
+                {project.description}
+              </p>
             </div>
           </div>
         ))}
       </div>
+
+      <div className="pt-4 text-center">
+        <span
+          onClick={toggleScroll}
+          className="underline cursor-pointer text-black dark:text-white"
+        >
+          AUTO-SCROLL: {isPaused ? 'OFF' : 'ON'}
+        </span>
+      </div>
+
+      <style jsx>{`
+        @keyframes infinite-scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-infinite-scroll {
+          animation: infinite-scroll 30s linear infinite;
+        }
+
+        .animate-infinite-scroll.paused {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 }
