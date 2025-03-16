@@ -1,11 +1,11 @@
 // src/App.jsx
 import React, { useEffect } from 'react';
 import './App.css';
-import Header from './components/Header.jsx';
-import IamTino from './components/iamtino.jsx';
-import StickyText from './components/stickyText.jsx';
-import About from './components/About.jsx';
-import Projects from './components/Projects.jsx';
+import Header from 'src/components/Header.jsx';
+import IamTino from 'src/components/iamtino.jsx';
+import StickyText from 'src/components/stickyText.jsx';
+import About from 'src/components/About.jsx';
+import Projects from 'src/components/Projects.jsx';
 
 function App() {
   useEffect(() => {
