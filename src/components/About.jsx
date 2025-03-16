@@ -6,26 +6,7 @@ function About() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center transform translate-y-3 gap-5">
-      {/* Container for the image with hover effect */}
-      <div
-        className="relative w-25 h-25 mb-4"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {/* Background circle that transitions */}
-        <div
-          className={`absolute inset-0 rounded-full bg-black dark:bg-white transition-all duration-500 ease-in-out ${
-            isHovered ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
-          }`}
-        />
-        {/* Profile image */}
-        <img
-          src="src/assets/profile.jpg" // Replace with your actual image path
-          alt="Valentino Ivanovski"
-          className="absolute inset-0 w-full h-full rounded-full object-cover transition-all duration-500 ease-in-out"
-        />
-      </div>
+    <div className="flex flex-col items-center justify-center transform translate-y-3">
       <p className="text-center text-md w-2/3 dark:text-white text-black">
         Hey, my name is Valentino Ivanovski, a 23 year old senior year Computer Science student at UP FAMNIT. I started my programming journey back in 2021, after being interested in 3D Modeling and Graphics Design for 6 years before that. This resulted in my desire to develop aesthetic websites while paying attention even to the slightest of details.
         <br/>

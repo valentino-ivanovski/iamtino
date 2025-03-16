@@ -1,39 +1,46 @@
 import React from 'react';
+// Import images
+import MandelbrotImage from '../assets/mandelbrot.png';
+import PokedexImage from '../assets/pokedex.png';
+import RealEstateImage from '../assets/realestate.png';
+import SoundshiftImage from '../assets/soundshift.png';
+import PushupsImage from '../assets/pushups.png';
+import TodoListImage from '../assets/todolist.png';
 
 const projects = [
   {
     title: "Mandelbrot Set Explorer",
-    image: "../assets/mandelbrot.png",
+    image: MandelbrotImage,
     description: "Mandelbrot set explorer made in Java, featuring a custom GUI which can run in sequential, parallel or distributed mode.",
     link: "https://github.com/valentino-ivanovski/mandelbrotset.v1",
   },
   {
     title: "Pokédex in React",
-    image: "../assets/pokedex.png",
+    image: PokedexImage,
     description: "Pokédex recreated in React, featuring a search bar, pagination and a detailed view of each Pokémon. Data fetched from PokéAPI.",
     link: "https://tino-pokedex.netlify.app",
   },
   {
     title: "Real Estate Landing Page",
-    image: "../assets/realestate.png",
+    image: RealEstateImage,
     description: "Made with HTML, CSS and JavaScript. Features a responsive modern and professional design.",
     link: "https://luxestate-project.netlify.app",
   },
   {
     title: "Soundshift",
-    image: "../assets/soundshift.png",
+    image: SoundshiftImage,
     description: "Music discovery platform with user creation, music recommendations and suggestions, YouTube music embedding and much more.",
     link: "https://github.com/valentino-ivanovski/Soundshift",
   },
   {
     title: "Evil Puhsup Challenge",
-    image: "../assets/pushups.png",
+    image: PushupsImage,
     description: "MacOS menu bar app that helps you do pushups every hour featuring a timer, notifications and progress tracking. Made with Swift and SwiftUI.",
     link: "https://github.com/valentino-ivanovski/pushupApp",
   },
   {
     title: "To-do List",
-    image: "../assets/todolist.png",
+    image: TodoListImage,
     description: "Just a simple to-do list application made with React.",
     link: "https://todotino.netlify.app",
   },
