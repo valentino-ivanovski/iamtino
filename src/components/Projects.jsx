@@ -167,7 +167,7 @@ function Projects() {
       <div className="transform translate-y-0 sm:-translate-y-3 text-center">
         <span
           onClick={toggleAutoScroll}
-          className="underline cursor-pointer text-black dark:text-white transition-all duration-200"
+          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
         >
           AUTO-SCROLL: {isAutoScroll ? "ON" : "OFF"}
         </span>
