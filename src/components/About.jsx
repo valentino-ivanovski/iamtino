@@ -14,7 +14,7 @@ function About() {
         A motto I always follow is the Law of the Five P's which states "Proper preparation prevents poor performance". No matter the situation, I always make sure to be prepared and ready to take over any challenge that's in my way.
         <br/>
         <br/>
-        <a href="https://a.dropoverapp.com/cloud/download/207f18c1-22f5-44f9-bc10-d1a7de9b1802/b4385080-b0bd-47a6-8fc5-425330866f38" target="_blank" rel="noopener noreferrer">
+        <a href="https://a.dropoverapp.com/cloud/download/318d973f-da8e-484c-939c-c32d370a2939/fee18a7d-ebf7-4498-8971-c1c88e00b66f" target="_blank" rel="noopener noreferrer">
           <u className="text-black dark:text-white ">Download my resume</u>
         </a>  or
         <a href="mailto:valentino.ivanovski@icloud.com"> <u className=' text-black dark:text-white'>reach out.</u></a><br/>
