@@ -16,6 +16,10 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page on refresh
+  }, []);
+
   return (
     <div className="flex flex-col">
       <div id="HOME" className="flex flex-col items-center min-h-screen bg-white">
