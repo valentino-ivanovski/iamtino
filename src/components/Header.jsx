@@ -21,7 +21,7 @@ function Header() {
   return (
     <div
       className={`fixed top-8 z-1000 flex flex-row pb-3 pt-3
-        rounded-sm items-center justify-center backdrop-blur-md w-80 sm:w-lg
+        rounded-sm items-center justify-center backdrop-blur-lg w-80 sm:w-lg
         transition-all duration-400 ${
           visible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
