@@ -33,7 +33,7 @@ function Header() {
     <div
       className={`fixed top-8 z-1000 flex flex-row pb-3 pt-3
         rounded-sm items-center justify-center w-80 sm:w-lg
-        transition-all duration-600 bg-white dark:bg-black
+        transition-all duration-600 bg-white/70 backdrop-blur-lg dark:bg-black/70 dark:backdrop-blur-lg
         ${atTop ? "shadow-none" : "shadow-md dark:shadow-none"} ${
           visible ? "" : "hidden pointer-events-none"
         }`}
