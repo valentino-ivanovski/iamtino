@@ -19,7 +19,7 @@ function StickyText() {
 
   return (
     <p
-      className={`fixed bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 sm:left-36 sm:transform-none z-50 cursor-default flex flex-col items-center sm:items-start text-xs sm:text-sm text-white mix-blend-difference
+      className={`fixed bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 sm:left-36 sm:transform-none z-50 cursor-default flex flex-col items-center sm:items-start text-xs sm:text-sm text-center text-white mix-blend-difference
         transition-opacity duration-500 ${visible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
     >
       VALENTINO IVANOVSKI

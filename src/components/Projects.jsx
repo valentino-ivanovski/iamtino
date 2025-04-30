@@ -161,9 +161,9 @@ function Projects() {
                   loading="lazy"
                 />
               </div>
-              <div className="text-center font-['Generic-G50'] text-black dark:text-white">
+              <div className="text-center text-lg font-['Generic-G50'] text-black dark:text-white">
                 <h3
-                  className="mb-2 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300"
+                  className="mb-2 pb-0 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300"
                   style={{
                     fontSize: `${Math.min(cardWidth / 20, 1.5)}rem`,
                   }}
@@ -171,7 +171,7 @@ function Projects() {
                   {project.title}
                 </h3>
                 <p
-                  className="opacity-100 cursor-default max-w-md dark:brightness-85"
+                  className="opacity-100 mb-2 cursor-default max-w-md dark:brightness-85"
                   style={{
                     fontSize: `${Math.min(cardWidth / 25, 1.125)}rem`,
                   }}
