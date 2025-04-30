@@ -49,8 +49,7 @@ function Projects() {
   const scrollRef = useRef(null);
   const [isAutoScroll, setIsAutoScroll] = useState(true);
   const [isUserScrolling, setIsUserScrolling] = useState(false);
-  const translateX = useRef(0);
-  const lastScrollLeft = useRef(0);
+  const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
   const animationFrame = useRef(null);
 
   useEffect(() => {
@@ -58,35 +57,46 @@ function Projects() {
   }, []);
 
   useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45); // Scale between 35vw and 45vw
+      setCardWidth(newWidth);
+    };
+
+    handleResize(); // Initial call
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    const smoothScroll = () => {
+    let startTime = null;
+    const duration = 50000; // Duration for one full loop in ms (adjust for speed)
+
+    const smoothScroll = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / duration;
+
       if (isAutoScroll && !isUserScrolling) {
-        translateX.current -= 1; // Reduced speed from 1.5 to 1 for smoother rendering
-        scrollContainer.style.transform = `translateX(${translateX.current}px)`;
+        const contentWidth = scrollContainer.scrollWidth / 2; // Half, since content is duplicated
+        const translateX = -(progress * contentWidth) % contentWidth; // Continuous loop
+        scrollContainer.style.transform = `translateX(${translateX}px)`;
 
-        const contentWidth = scrollContainer.scrollWidth / 2;
-        if (Math.abs(translateX.current) >= contentWidth) {
-          translateX.current = 0;
-          scrollContainer.style.transition = 'none'; // Disable transition for instant reset
-          scrollContainer.style.transform = `translateX(0px)`;
-          requestAnimationFrame(() => {
-            scrollContainer.style.transition = 'transform 0.1s linear'; // Re-enable transition
-          });
-        }
-
-        animationFrame.current = requestAnimationFrame(smoothScroll);
+        // Reset startTime for seamless looping
+        if (progress >= 1) startTime = timestamp;
       }
+
+      animationFrame.current = requestAnimationFrame(smoothScroll);
     };
 
     if (isAutoScroll && !isUserScrolling) {
-      scrollContainer.style.transition = 'transform 0.1s linear'; // Smooth transition
+      scrollContainer.style.transition = 'none'; // No transition for CSS animation
       animationFrame.current = requestAnimationFrame(smoothScroll);
     } else {
-      scrollContainer.style.transition = 'none';
       scrollContainer.style.transform = "translateX(0)";
-      scrollContainer.scrollLeft = lastScrollLeft.current;
+      scrollContainer.scrollLeft = 0;
     }
 
     return () => {
@@ -94,71 +104,78 @@ function Projects() {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [isAutoScroll, isUserScrolling]);
+  }, [isAutoScroll, isUserScrolling, cardWidth]);
 
   const handleScroll = () => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    if (!isAutoScroll) {
-      lastScrollLeft.current = scrollContainer.scrollLeft;
-    } else if (isAutoScroll && !isUserScrolling) {
+    if (isAutoScroll && !isUserScrolling) {
       setIsUserScrolling(true);
     }
   };
 
   const handleScrollEnd = () => {
     if (isAutoScroll) {
-      setTimeout(() => setIsUserScrolling(false), 500);
+      setTimeout(() => setIsUserScrolling(false), 300); // Reduced delay for responsiveness
     }
   };
 
   const toggleAutoScroll = () => {
-    setIsAutoScroll((prev) => {
-      if (prev) {
-        const scrollContainer = scrollRef.current;
-        if (scrollContainer) {
-          scrollContainer.style.transition = 'none';
-          scrollContainer.style.transform = "translateX(0)";
-          scrollContainer.scrollLeft = lastScrollLeft.current;
-        }
-      }
-      return !prev;
-    });
+    setIsAutoScroll((prev) => !prev);
   };
 
   const displayedProjects = isAutoScroll ? projects.concat(projects) : projects;
 
   return (
-    <div className="relative w-screen flex flex-col justify-center h-screen overflow-hidden">
+    <div className="relative w-screen flex flex-col justify-center min-h-screen overflow-hidden p-0 sm:p-0">
       {/* Scrolling Container */}
-      <div className="w-full overflow-x-auto scrollbar-hide scroll-smooth">
+      <div className="w- overflow-x-auto scrollbar-hide scroll-smooth">
         <div
           ref={scrollRef}
           onScroll={handleScroll}
           onTouchEnd={handleScrollEnd}
           onMouseUp={handleScrollEnd}
-          className="inline-flex flex-nowrap scale-75 sm:scale-100 gap-8 p-0 sm:p-15 sm:min-w-max w-full sm:w-auto will-change-transform"
+          className="inline-flex flex-nowrap gap-2 sm:gap-8 p-0 sm:p-5 w-full will-change-transform"
         >
           {displayedProjects.map((project, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[625px] flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-4 pb-7"
+              className="flex flex-col items-center border border-gray-300 dark:border-gray-500 mb-4 sm:mb-0 rounded-lg bg-white dark:bg-black p-6 sm:p-6"
+              style={{
+                width: `${cardWidth}vw`,
+                minWidth: "500px",
+                maxWidth: "500px",
+                maxHeight: "600px",
+              }}
             >
-              <div className="w-full h-[380px] mb-4">
+              <div
+                className="w-full mb-3 sm:mb-4"
+                style={{
+                  aspectRatio: "625 / 380",
+                  maxHeight: "300px",
+                }}
+              >
                 <img
                   onClick={() => window.open(project.link, "_blank")}
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover cursor-pointer dark:brightness-85 rounded-md"
-                  loading="lazy" // Added lazy loading
+                  className="w-full h-full object-contain cursor-pointer dark:brightness-85 rounded-md"
+                  loading="lazy"
                 />
               </div>
               <div className="text-center font-['Generic-G50'] text-black dark:text-white">
-                <h3 className="text-2xl mb-2 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300">
+                <h3
+                  className="mb-2 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300"
+                  style={{
+                    fontSize: `${Math.min(cardWidth / 20, 1.5)}rem`,
+                  }}
+                >
                   {project.title}
                 </h3>
-                <p className="text-lg opacity-100 cursor-default max-w-md dark:brightness-85">
+                <p
+                  className="opacity-100 cursor-default max-w-md dark:brightness-85"
+                  style={{
+                    fontSize: `${Math.min(cardWidth / 25, 1.125)}rem`,
+                  }}
+                >
                   {project.description}
                 </p>
               </div>
@@ -168,7 +185,7 @@ function Projects() {
       </div>
 
       {/* Pause Button Below Projects */}
-      <div className="transform translate-y-0 sm:-translate-y-3 text-center">
+      <div className="mt-4 sm:mt-6 text-center">
         <span
           onClick={toggleAutoScroll}
           className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
@@ -189,6 +206,15 @@ function Projects() {
         .will-change-transform {
           will-change: transform;
           transform: translateZ(0); /* Force GPU acceleration */
+        }
+        @media (max-width: 640px) {
+          .inline-flex {
+            gap: 8px; /* Smaller gap in phone mode */
+            padding: 0 8px;
+          }
+          .flex-shrink-0 {
+            padding: 8px; /* Reduced padding in phone mode */
+          }
         }
       `}</style>
     </div>
