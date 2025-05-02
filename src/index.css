@@ -17,10 +17,7 @@
   font-family: Generic-G50, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  --vh: 100%;
 }
-
-
 
 
 
@@ -37,7 +34,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  overscroll-behavior: none; /* disables bounce on supported browsers */
 }
 
 h1 {
