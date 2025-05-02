@@ -7,7 +7,7 @@ function About() {
 
   return (
     <div className="flex flex-col items-center justify-center transform translate-y-3">
-      <p className="text-center dark:brightness-85 cursor-default text-lg w-3/4 sm:w-2/3 dark:text-white text-black">
+      <p className="text-center dark:brightness-85 cursor-default text-md w-3/4 sm:w-2/3 dark:text-white text-black">
         Hey, my name is Valentino Ivanovski, a 23 year old senior year Computer Science student at UP FAMNIT. I started my programming journey back in 2021, after being interested in 3D Modeling and Graphics Design since 2015. This resulted in my desire to develop aesthetic websites while paying attention even to the slightest of details.
         <br/>
         <br/>
