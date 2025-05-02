@@ -5,7 +5,7 @@ function StickyText() {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 3500);
+    const timer = setTimeout(() => setVisible(true), 3400);
     return () => clearTimeout(timer);
   }, []);
 

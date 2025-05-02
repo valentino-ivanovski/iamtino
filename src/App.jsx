@@ -20,17 +20,26 @@ function App() {
     window.scrollTo(0, 0); // Scroll to the top of the page on refresh
   }, []);
 
+  useEffect(() => {
+    const setVh = () => {
+      document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+    };
+    setVh();
+    window.addEventListener('resize', setVh);
+    return () => window.removeEventListener('resize', setVh);
+  }, []);
+
   return (
     <div className="flex flex-col">
-      <div id="HOME" className="flex flex-col items-center min-h-screen bg-white">
+      <div id="HOME" className="flex flex-col items-center h-[calc(var(--vh)_*_100)] bg-white">
         <Header />
         <IamTino />
         <StickyText />
       </div>
-      <div id="PROJECTS" className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+      <div id="PROJECTS" className="flex items-center justify-center h-[calc(var(--vh)_*_100)] bg-white dark:bg-black">
         <Projects />
       </div>
-      <div id="ABOUT" className="flex flex-col justify-center items-center min-h-screen bg-white dark:bg-black">
+      <div id="ABOUT" className="flex flex-col justify-center items-center h-[calc(var(--vh)_*_100)] bg-white dark:bg-black">
         <About />
       </div>
     </div>
