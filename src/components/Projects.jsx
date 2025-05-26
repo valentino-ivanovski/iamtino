@@ -1,56 +1,64 @@
 import React, { useState, useRef, useEffect } from "react";
-import MandelbrotImage from "../assets/mandelbrot.png";
-import PokedexImage from "../assets/pokedex.png";
-import RealEstateImage from "../assets/realestate.png";
-import SoundshiftImage from "../assets/soundshift.png";
-import PushupsImage from "../assets/pushups.png";
-import TodoListImage from "../assets/todolist.png";
+import { motion, useAnimationControls } from "framer-motion";
+import MandelbrotImage from "../assets/untitled folder/mandelbrot.png";
+import PokedexImage from "../assets/untitled folder/pokedex.png";
+import RealEstateImage from "../assets/untitled folder/realestate.png";
+import SoundshiftImage from "../assets/untitled folder/soundshift.png";
+import PushupsImage from "../assets/untitled folder/pushups.png";
+import TodoListImage from "../assets/untitled folder/todolist.png";
+import YachtImage from "../assets/untitled folder/yacht.png";
+import OneRoofing from "../assets/untitled folder/one.png";
 
 const projects = [
   {
+    title: "Yacht Moment",
+    image: YachtImage,
+    description: "Next.js yacht rental site with responsive design, slideshows, forms, and SEO.",
+    link: "https://yachtmoment.com",
+  },
+  {
+    title: "One Roofing Services",
+    image: OneRoofing,
+    description: "Next.js roofing site with forms, galleries, responsive layout, and SEO.",
+    link: "https://one-roofing.vercel.app",
+  },
+  {
     title: "Mandelbrot Set Explorer",
     image: MandelbrotImage,
-    description: "Mandelbrot set explorer made in Java, featuring a custom GUI which can run in sequential, parallel or distributed mode.",
+    description: "Java GUI for exploring Mandelbrot sets in sequential, parallel, or distributed mode.",
     link: "https://github.com/valentino-ivanovski/mandelbrotset.v1",
   },
   {
     title: "Pokédex in React",
     image: PokedexImage,
-    description: "Pokédex recreated in React, featuring a search bar, pagination and a detailed view of each Pokémon. Data fetched from PokéAPI.",
+    description: "React Pokédex with search, pagination, and Pokémon details using PokéAPI.",
     link: "https://tino-pokedex.netlify.app",
   },
   {
     title: "Real Estate Landing Page",
     image: RealEstateImage,
-    description: "Made with HTML, CSS and JavaScript. Features a responsive modern and professional design.",
+    description: "Responsive real estate page with modern design using HTML, CSS, and JS.",
     link: "https://luxestate-project.netlify.app",
   },
   {
     title: "Soundshift",
     image: SoundshiftImage,
-    description: "Music discovery platform with user creation, music recommendations and suggestions, YouTube music embedding and much more.",
+    description: "Music discovery platform with user profiles, recommendations, and YouTube embedding.",
     link: "https://github.com/valentino-ivanovski/Soundshift",
   },
   {
     title: "Evil Pushup Challenge",
     image: PushupsImage,
-    description: "MacOS menu bar app that helps you do pushups every hour featuring a timer, notifications and progress tracking. Made with Swift and SwiftUI.",
+    description: "MacOS app for hourly pushup tracking with timer, notifications, and progress.",
     link: "https://github.com/valentino-ivanovski/pushupApp",
-  },
-  {
-    title: "To-do List",
-    image: TodoListImage,
-    description: "Just a simple to-do list application made with React.",
-    link: "https://todotino.netlify.app",
   },
 ];
 
 function Projects() {
-  const scrollRef = useRef(null);
+  const controls = useAnimationControls();
+  const containerRef = useRef(null);
   const [isAutoScroll, setIsAutoScroll] = useState(true);
-  const [isUserScrolling, setIsUserScrolling] = useState(false);
   const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
-  const animationFrame = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page on render
@@ -69,54 +77,27 @@ function Projects() {
   }, []);
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
+    if (!containerRef.current) return;
+    const scrollContainer = containerRef.current;
+    const contentWidth = scrollContainer.scrollWidth / 2;
 
-    let startTime = null;
-    const duration = 50000; // Duration for one full loop in ms (adjust for speed)
-
-    const smoothScroll = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = (timestamp - startTime) / duration;
-
-      if (isAutoScroll && !isUserScrolling) {
-        const contentWidth = scrollContainer.scrollWidth / 2; // Half, since content is duplicated
-        const translateX = -(progress * contentWidth) % contentWidth; // Continuous loop
-        scrollContainer.style.transform = `translateX(${translateX}px)`;
-
-        // Reset startTime for seamless looping
-        if (progress >= 1) startTime = timestamp;
-      }
-
-      animationFrame.current = requestAnimationFrame(smoothScroll);
-    };
-
-    if (isAutoScroll && !isUserScrolling) {
-      scrollContainer.style.transition = 'none'; // No transition for CSS animation
-      animationFrame.current = requestAnimationFrame(smoothScroll);
-    } else {
-      scrollContainer.style.transform = "translateX(0)";
-      scrollContainer.scrollLeft = 0;
-    }
-
-    return () => {
-      if (animationFrame.current) {
-        cancelAnimationFrame(animationFrame.current);
-      }
-    };
-  }, [isAutoScroll, isUserScrolling, cardWidth]);
-
-  const handleScroll = () => {
-    if (isAutoScroll && !isUserScrolling) {
-      setIsUserScrolling(true);
-    }
-  };
-
-  const handleScrollEnd = () => {
     if (isAutoScroll) {
-      setTimeout(() => setIsUserScrolling(false), 300); // Reduced delay for responsiveness
+      controls.start({
+        x: [0, -contentWidth],
+        transition: {
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 50,
+            ease: "linear",
+          },
+        },
+      });
+    } else {
+      controls.stop();
+      controls.set({ x: 0 });
     }
-  };
+  }, [isAutoScroll, cardWidth, controls]);
 
   const toggleAutoScroll = () => {
     setIsAutoScroll((prev) => !prev);
@@ -127,13 +108,12 @@ function Projects() {
   return (
     <div className="relative w-screen flex flex-col justify-center min-h-screen overflow-hidden p-0 sm:p-0">
       {/* Scrolling Container */}
-      <div className="w- overflow-x-auto scrollbar-hide scroll-smooth">
-        <div
-          ref={scrollRef}
-          onScroll={handleScroll}
-          onTouchEnd={handleScrollEnd}
-          onMouseUp={handleScrollEnd}
+      <div className={`${isAutoScroll ? "overflow-hidden" : "overflow-x-auto"} scrollbar-hide scroll-smooth`}>
+        <motion.div
+          ref={containerRef}
+          animate={controls}
           className="inline-flex flex-nowrap gap-2 sm:gap-8 p-0 sm:p-5 w-full will-change-transform"
+          style={{ x: 0 }}
         >
           {displayedProjects.map((project, index) => (
             <div
@@ -181,7 +161,7 @@ function Projects() {
               </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Pause Button Below Projects */}
