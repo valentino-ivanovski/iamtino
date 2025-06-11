@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 function Header() {
   const [visible, setVisible] = useState(false);
   const [atTop, setAtTop] = useState(true);
 
-  // Handle visibility after 3.5s
   useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 3500);
+    const timer = setTimeout(() => setVisible(true), 2500);
     return () => clearTimeout(timer);
   }, []);
 
-  // Handle scroll position detection
   useEffect(() => {
     const handleScroll = () => {
       setAtTop(window.scrollY === 0);
@@ -30,35 +29,48 @@ function Header() {
   };
 
   return (
-    <div
-      className={`fixed top-8 z-1000 flex flex-row pb-3 pt-3
-        rounded-sm items-center justify-center w-80 sm:w-lg
-        transition-all duration-600 bg-white/70 backdrop-blur-lg dark:bg-black/70 dark:backdrop-blur-lg
-        ${atTop ? "shadow-none" : "shadow-md dark:shadow-none"} ${
-          visible ? "" : "hidden pointer-events-none"
-        }`}
-    >
-      <nav className="flex flex-row justify-between gap-13 sm:gap-16 sm:gap-36 text-md mt-1">
-        <ul
-          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
-          onClick={() => scrollToSection("HOME")}
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          className={`fixed top-8 z-1000 flex flex-row pb-3 pt-3
+            rounded-md items-center justify-center w-80 sm:w-lg
+            bg-white mix-blend-difference`}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
         >
-          HOME
-        </ul>
-        <ul
-          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
-          onClick={() => scrollToSection("PROJECTS")}
-        >
-          PROJECTS
-        </ul>
-        <ul
-          className="cursor-pointer dark:brightness-85 text-sm text-black dark:text-white"
-          onClick={() => scrollToSection("ABOUT")}
-        >
-          ABOUT
-        </ul>
-      </nav>
-    </div>
+          <nav className="flex flex-row justify-between gap-13 sm:gap-16 sm:gap-36 text-md mt-1">
+            <motion.ul
+              className="cursor-pointer text-sm text-black"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              onClick={() => scrollToSection("HOME")}
+            >
+              HOME
+            </motion.ul>
+            <motion.ul
+              className="cursor-pointer text-sm text-black"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              onClick={() => scrollToSection("PROJECTS")}
+            >
+              PROJECTS
+            </motion.ul>
+            <motion.ul
+              className="cursor-pointer text-sm text-black"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              onClick={() => scrollToSection("ABOUT")}
+            >
+              ABOUT
+            </motion.ul>
+          </nav>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

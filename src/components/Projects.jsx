@@ -64,7 +64,6 @@ const projects = [
 function Projects() {
   const [isAutoScroll, setIsAutoScroll] = useState(true);
   const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
-  const [gradientWidth, setGradientWidth] = useState(200);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page on render
@@ -75,7 +74,6 @@ function Projects() {
       const windowWidth = window.innerWidth;
       let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45); // Scale between 35vw and 45vw
       setCardWidth(newWidth);
-      setGradientWidth(windowWidth >= 640 ? 150 : 0);
     };
 
     handleResize(); // Initial call
@@ -96,9 +94,6 @@ function Projects() {
         pauseOnClick={false}
         direction="left"
         speed={50}
-        gradient={true}
-        gradientColor={typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches ? "black" : "white"}
-        gradientWidth={gradientWidth}
         className="overflow-hidden"
       >
         {projects.map((project, index) => (
