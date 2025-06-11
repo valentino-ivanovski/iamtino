@@ -20,8 +20,8 @@ function App() {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black p-1 md:p-1"> {/* Full-screen black frame with responsive padding */}
-      <div className="relative w-full h-full rounded-none md:rounded-lg overflow-hidden bg-white dark:bg-black">
+    <div className="fixed inset-0 bg-black p-2 md:p-2"> {/* Full-screen black frame with responsive padding */}
+      <div className="relative w-full h-full rounded-lg md:rounded-lg overflow-hidden bg-white dark:bg-black">
         <div className="absolute inset-0 overflow-y-auto"> {/* Scrollable content area */}
           <div className="flex flex-col">
             <div id="HOME" className="flex flex-col items-center min-h-screen bg-white dark:bg-black">
