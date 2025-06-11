@@ -1,15 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import MandelbrotImage from "../assets/untitled folder/mandelbrot.png";
-import PokedexImage from "../assets/untitled folder/pokedex.png";
-import RealEstateImage from "../assets/untitled folder/realestate.png";
-import SoundshiftImage from "../assets/untitled folder/soundshift.png";
-import PushupsImage from "../assets/untitled folder/pushups.png";
-import TodoListImage from "../assets/untitled folder/todolist.png";
-import YachtImage from "../assets/untitled folder/yacht.png";
-import OneRoofing from "../assets/untitled folder/one.png";
+import MandelbrotImage from "../assets/untitled folder/mandelbrot.webp";
+import PokedexImage from "../assets/untitled folder/pokedex.webp";
+import RealEstateImage from "../assets/untitled folder/realestate.webp";
+import SoundshiftImage from "../assets/untitled folder/soundshift.webp";
+import PushupsImage from "../assets/untitled folder/pushups.webp";
+import TodoListImage from "../assets/untitled folder/todolist.webp";
+import YachtImage from "../assets/untitled folder/yacht.webp";
+import OneRoofing from "../assets/untitled folder/one.webp";
+import Isa from "../assets/untitled folder/isa.webp";
 
 const projects = [
+  {
+    title: "Isa's Kombucha",
+    image: YachtImage,
+    description: "Official redesign of Isa's Kombucha site using Next.js, Tailwind CSS, and Framer Motion.",
+    link: "https://isa-kombucha.vercel.app",
+  },
   {
     title: "Yacht Moment",
     image: YachtImage,
@@ -25,7 +32,7 @@ const projects = [
   {
     title: "Mandelbrot Set Explorer",
     image: MandelbrotImage,
-    description: "Java GUI for exploring Mandelbrot sets in sequential, parallel, or distributed mode.",
+    description: "Java GUI for exploring the Mandelbrot Set in sequential, parallel, or distributed mode.",
     link: "https://github.com/valentino-ivanovski/mandelbrotset.v1",
   },
   {
