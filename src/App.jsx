@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import Header from './components/Header.jsx';
-import IamTino from './components/IamTino.jsx';
-import StickyText from './components/StickyText.jsx';
-import About from './components/About.jsx';
-import Projects from './components/Projects.jsx';
+import Header from './components/Header.jsx'; // Relative path
+import IamTino from './components/IamTino.jsx'; // Relative path
+import StickyText from './components/StickyText.jsx'; // Relative path
+import About from './components/About.jsx'; // Relative path
+import Projects from './components/Projects.jsx'; // Relative path
 
 function App() {
   useEffect(() => {
@@ -16,27 +16,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); // Scroll to the top of the page on refresh
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black p-1.5 md:p-1.5"> {/* Full-screen black frame with responsive padding */}
-      <div className="relative w-full h-full rounded-lg md:rounded-lg overflow-hidden bg-white dark:bg-black">
-        <div className="absolute inset-0 overflow-y-auto"> {/* Scrollable content area */}
-          <div className="flex flex-col">
-            <div id="HOME" className="flex flex-col items-center min-h-screen bg-white dark:bg-black">
-              <Header />
-              <IamTino />
-              <StickyText />
-            </div>
-            <div id="PROJECTS" className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
-              <Projects />
-            </div>
-            <div id="ABOUT" className="flex flex-col justify-center items-center min-h-screen bg-white dark:bg-black">
-              <About />
-            </div>
-          </div>
-        </div>
+    <div className="flex flex-col">
+      <div id="HOME" className="flex flex-col items-center min-h-screen bg-white">
+        <Header />
+        <IamTino />
+        <StickyText />
+      </div>
+      <div id="PROJECTS" className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+        <Projects />
+      </div>
+      <div id="ABOUT" className="flex flex-col justify-center items-center min-h-screen bg-white dark:bg-black">
+        <About />
       </div>
     </div>
   );
