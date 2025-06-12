@@ -21,15 +21,15 @@ function App() {
 
   return (
     <div className="flex flex-col">
-      <div id="HOME" className="flex flex-col items-center min-h-screen bg-white">
+      <div id="HOME" className="flex flex-col items-center min-h-screen bg-black">
         <Header />
         <IamTino />
         <StickyText />
       </div>
-      <div id="PROJECTS" className="flex items-center justify-center min-h-screen bg-white dark:bg-black">
+      <div id="PROJECTS" className="flex items-center justify-center min-h-screen bg-black dark:bg-black">
         <Projects />
       </div>
-      <div id="ABOUT" className="flex flex-col justify-center items-center min-h-screen bg-white dark:bg-black">
+      <div id="ABOUT" className="flex flex-col justify-center items-center min-h-screen bg-black dark:bg-black">
         <About />
       </div>
     </div>
