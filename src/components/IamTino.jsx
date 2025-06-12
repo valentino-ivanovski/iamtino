@@ -55,7 +55,7 @@ function IamTino({ onIntroComplete }) {
   ];
 
   return (
-    <div className="flex justify-center transform -translate-y-10 items-center relative dark:bg-black w-screen h-screen">
+    <div className="flex justify-center transform -translate-y-8.5 items-center relative dark:bg-black w-screen h-screen">
       {/* Bold Letters */}
       {showBold && (
         <motion.div
