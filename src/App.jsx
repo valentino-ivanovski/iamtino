@@ -11,7 +11,7 @@ function App() {
     document.body.style.overflow = 'hidden';
     const timer = setTimeout(() => {
       document.body.style.overflow = 'auto';
-    }, 4500);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
