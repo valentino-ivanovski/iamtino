@@ -99,7 +99,7 @@ function Projects() {
         {projects.map((project, index) => (
           <div
             key={index}
-            className="flex flex-col items-center border border-gray-300 dark:border-gray-500 mb-4 sm:mb-0 rounded-lg bg-black dark:bg-black p-6 sm:p-6 mx-2 sm:mx-4"
+            className="flex flex-col items-center border border-gray-300 dark:border-gray-500 mb-4 sm:mb-0 rounded-lg bg-white dark:bg-black p-6 sm:p-6 mx-2 sm:mx-4"
             style={{
               width: `${cardWidth}vw`,
               minWidth: "500px",
