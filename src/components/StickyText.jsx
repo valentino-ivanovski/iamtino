@@ -35,7 +35,7 @@ function StickyText() {
           >
             VALENTINO IVANOVSKI
             <br />
-            <span className="hidden sm:inline">JUNIOR SOFTWARE DEVELOPER</span>
+            <span className="hidden sm:inline">JUNIOR FRONTEND DEVELOPER</span>
             <br className="hidden sm:block" />
             {currentTime.toLocaleString()}
           </motion.p>
