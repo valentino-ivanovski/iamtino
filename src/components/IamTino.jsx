@@ -54,8 +54,8 @@ function IamTino({ onIntroComplete }) {
     { src: SerifO, alt: 'O', className: 'pl-0 pr-0 -translate-x-[6px]', delay: 0.6 },
   ];
 
-  return (
-    <div className="flex justify-center transform -translate-y-7 sm:-translate-y-0 items-center relative dark:bg-black w-screen h-screen">
+  return ( // smeni -translate-y-0 to -translate-y-7
+    <div className="flex justify-center transform -translate-y-0 sm:-translate-y-0 items-center relative dark:bg-black w-screen h-screen">
       {/* Bold Letters */}
       {showBold && (
         <motion.div
