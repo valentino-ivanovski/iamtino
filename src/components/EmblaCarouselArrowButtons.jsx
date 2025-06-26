@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import React, { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from 'embla-carousel-react';
+import AutoScroll from 'embla-carousel-auto-scroll';
+import { PrevButton, NextButton, usePrevNextButtons } from './EmblaCarouselArrowButtons';
 import MandelbrotImage from "../assets/untitled folder/mandelbrot.webp";
 import PokedexImage from "../assets/untitled folder/pokedex.webp";
 import RealEstateImage from "../assets/untitled folder/realestate.webp";
@@ -63,81 +64,65 @@ const projects = [
 ];
 
 function Projects() {
-  const [isAutoScroll, setIsAutoScroll] = useState(true);
-  const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-    },
-    [
-      Autoplay({
-        playOnInit: isAutoScroll,
-        delay: 3000,
-        stopOnInteraction: false,
-      }),
-    ]
-  );
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    AutoScroll({ playOnInit: true, speed: 1 })
+  ]);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [cardWidth, setCardWidth] = useState(40);
+
+  const {
+    prevBtnDisabled,
+    nextBtnDisabled,
+    onPrevButtonClick,
+    onNextButtonClick
+  } = usePrevNextButtons(emblaApi);
+
+  const toggleAutoplay = useCallback(() => {
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!autoScroll) return;
+    const playOrStop = autoScroll.isPlaying() ? autoScroll.stop : autoScroll.play;
+    playOrStop();
+    setIsPlaying(!isPlaying);
+  }, [emblaApi, isPlaying]);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page on render
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!autoScroll) return;
+    setIsPlaying(autoScroll.isPlaying());
+    emblaApi
+      .on('autoScroll:play', () => setIsPlaying(true))
+      .on('autoScroll:stop', () => setIsPlaying(false))
+      .on('reInit', () => setIsPlaying(autoScroll.isPlaying()));
+  }, [emblaApi]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
-      let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45); // Scale between 35vw and 45vw
+      let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45);
       setCardWidth(newWidth);
     };
-
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (emblaApi) {
-      const autoplay = emblaApi.plugins().autoplay;
-      if (isAutoScroll) {
-        autoplay.play();
-      } else {
-        autoplay.stop();
-      }
-    }
-  }, [isAutoScroll, emblaApi]);
-
-  const toggleAutoScroll = () => {
-    setIsAutoScroll((prev) => !prev);
-  };
-
-  const scrollLeft = () => {
-    if (emblaApi) {
-      emblaApi.scrollPrev();
-    }
-  };
-
-  const scrollRight = () => {
-    if (emblaApi) {
-      emblaApi.scrollNext();
-    }
-  };
-
   return (
-    <div className="relative w-screen flex flex-col justify-center min-h-screen overflow-hidden p-0 sm:p-0">
-      {/* Embla Carousel Container */}
-      <div className="embla" ref={emblaRef}>
-        <div className="embla__container flex">
+    <div className="relative w-screen flex flex-col justify-center min-h-screen overflow-hidden p-0 sm:p-0 max-w-5xl mx-auto">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex touch-pan-y -ml-4">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="embla__slide flex flex-col items-center border border-gray-300 dark:border-gray-500 mb-4 sm:mb-0 rounded-lg bg-white dark:bg-black p-6 sm:p-6 mx-2 sm:mx-4"
+              className="flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-6 mx-2 sm:mx-4 flex-[0_0_45%]"
               style={{
                 width: `${cardWidth}vw`,
                 minWidth: "500px",
                 maxWidth: "500px",
                 maxHeight: "600px",
-                flexShrink: 0,
               }}
             >
               <div
@@ -178,41 +163,31 @@ function Projects() {
         </div>
       </div>
 
-      {/* Navigation and Auto-Scroll Controls */}
-      <div className="mt-4 sm:mt-6 transform translate-y-5 text-center flex justify-center items-center gap-4">
-        <span
-          onClick={scrollLeft}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
+      <div className="grid grid-cols-[auto_1fr_auto] gap-3 mt-6 items-center">
+        <div className="grid grid-cols-2 gap-2">
+          <PrevButton
+            onClick={onPrevButtonClick}
+            disabled={prevBtnDisabled}
+            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-500 text-gray-700 dark:text-white disabled:text-gray-400 cursor-pointer"
+          />
+          <NextButton
+            onClick={onNextButtonClick}
+            disabled={nextBtnDisabled}
+            className="flex items-center justify-center w-12 h-12 rounded-full border-2 border-gray-500 text-gray-700 dark:text-white disabled:text-gray-400 cursor-pointer"
+          />
+        </div>
+        <button
+          onClick={toggleAutoplay}
+          className="justify-self-end bg-transparent border-2 border-gray-500 rounded-xl text-gray-700 dark:text-white font-bold text-sm px-6 py-2 cursor-pointer"
         >
-          LEFT
-        </span>
-        <span
-          onClick={toggleAutoScroll}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
-        >
-          AUTO-SCROLL: {isAutoScroll ? "ON" : "OFF"}
-        </span>
-        <span
-          onClick={scrollRight}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
-        >
-          RIGHT
-        </span>
+          {isPlaying ? 'Stop' : 'Start'}
+        </button>
       </div>
 
       <style jsx>{`
-        .embla {
-          overflow: hidden;
-        }
-        .embla__container {
-          display: flex;
-        }
-        .embla__slide {
-          flex: 0 0 auto;
-        }
         @media (max-width: 640px) {
-          .embla__slide {
-            min-width: 300px; /* Adjust for smaller screens */
+          .flex-[0_0_45%] {
+            flex: 0 0 80%;
           }
         }
       `}</style>
