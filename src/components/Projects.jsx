@@ -203,7 +203,6 @@ function Projects() {
             animate="visible"
             exit="exit"
             drag="x"
-            whileDrag={{ scale: 0.95 }}
             dragConstraints={{ right: 0, left: -width }}
             dragTransition={{ bounceDamping: 30 }}
             onDrag={handleDrag}
