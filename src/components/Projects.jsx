@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Marquee from "react-fast-marquee";
 import MandelbrotImage from "../assets/untitled folder/mandelbrot.webp";
 import PokedexImage from "../assets/untitled folder/pokedex.webp";
 import RealEstateImage from "../assets/untitled folder/realestate.webp";
@@ -63,26 +63,23 @@ const projects = [
 ];
 
 function Projects() {
-  const [isAutoScroll, setIsAutoScroll] = useState(true);
+  const [width, setWidth] = useState(0);
   const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-    },
-    [
-      Autoplay({
-        playOnInit: isAutoScroll,
-        delay: 3000,
-        stopOnInteraction: false,
-      }),
-    ]
-  );
+  const [isAutoScroll, setIsAutoScroll] = useState(true); // Toggle for auto-scroll
+  const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
+  const carousel = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to the top of the page on render
   }, []);
+
+  useEffect(() => {
+    if (carousel.current && !isAutoScroll) {
+      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+      // Restore scroll position when switching back to drag mode
+      carousel.current.scrollLeft = scrollPosition;
+    }
+  }, [carousel, isAutoScroll, scrollPosition]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,126 +93,135 @@ function Projects() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (emblaApi) {
-      const autoplay = emblaApi.plugins().autoplay;
-      if (isAutoScroll) {
-        autoplay.play();
-      } else {
-        autoplay.stop();
-      }
+  // Update scroll position on drag
+  const handleDrag = (e, info) => {
+    if (carousel.current) {
+      setScrollPosition(carousel.current.scrollLeft - info.offset.x);
     }
-  }, [isAutoScroll, emblaApi]);
+  };
+
+  // Update scroll position during marquee animation
+  const handleMarqueeUpdate = () => {
+    if (carousel.current) {
+      setScrollPosition(carousel.current.scrollLeft);
+    }
+  };
 
   const toggleAutoScroll = () => {
-    setIsAutoScroll((prev) => !prev);
+    setIsAutoScroll(!isAutoScroll);
   };
 
-  const scrollLeft = () => {
-    if (emblaApi) {
-      emblaApi.scrollPrev();
-    }
-  };
+  const renderProjectCard = (project, index) => (
+    <motion.div
+      key={index}
+      className="min-w-[20rem] min-h-[25rem] p-2"
+      style={{
+        width: `${cardWidth}vw`,
+        minWidth: "500px",
+        maxWidth: "500px",
+        maxHeight: "600px",
+      }}
+    >
+      <div className="flex flex-col items-center border border-gray-300 dark:border-gray-500 rounded-lg bg-white dark:bg-black p-6">
+        <div
+          className="w-full mb-3"
+          style={{
+            aspectRatio: "625 / 380",
+            maxHeight: "300px",
+          }}
+        >
+          <img
+            onClick={() => window.open(project.link, "_blank")}
+            src={project.image}
+            alt={project.title}
+            className={`w-full h-full object-contain rounded-md select-none dark:brightness-85 ${
+              isAutoScroll ? "cursor-default" : "cursor-pointer"
+            }`}
+            loading="lazy"
+            draggable={false}
+          />
+        </div>
+        <div className="text-center text-lg font-['Generic-G50'] text-black dark:text-white">
+          <h3
+            className={`mb-2 pb-0 tracking-wider dark:brightness-85 select-none ${
+              isAutoScroll ? "cursor-default" : "cursor-grab"
+            }`}
+            style={{
+              fontSize: `${Math.min(cardWidth / 20, 1.5)}rem`,
+            }}
+          >
+            {project.title}
+          </h3>
+          <p
+            className={`opacity-100 mb-2 max-w-md dark:brightness-85 select-none ${
+              isAutoScroll ? "cursor-default" : "cursor-grab"
+            }`}
+            style={{
+              fontSize: `${Math.min(cardWidth / 25, 1.125)}rem`,
+            }}
+          >
+            {project.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
 
-  const scrollRight = () => {
-    if (emblaApi) {
-      emblaApi.scrollNext();
-    }
+  // Animation variants for subtle fade-in transition
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.6, ease: "easeInOut" } },
+    exit: { opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } },
   };
 
   return (
     <div className="relative w-screen flex flex-col justify-center min-h-screen overflow-hidden p-0 sm:p-0">
-      {/* Embla Carousel Container */}
-      <div className="embla" ref={emblaRef}>
-        <div className="embla__container flex">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="embla__slide flex flex-col items-center border border-gray-300 dark:border-gray-500 mb-4 sm:mb-0 rounded-lg bg-white dark:bg-black p-6 sm:p-6 mx-2 sm:mx-4"
-              style={{
-                width: `${cardWidth}vw`,
-                minWidth: "500px",
-                maxWidth: "500px",
-                maxHeight: "600px",
-                flexShrink: 0,
-              }}
+      <AnimatePresence mode="wait">
+        {isAutoScroll ? (
+          <motion.div
+            key="marquee"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <Marquee
+              speed={50}
+              gradient={false}
+              onCycleComplete={handleMarqueeUpdate}
+              className="flex will-change-transform"
             >
-              <div
-                className="w-full mb-3 sm:mb-4"
-                style={{
-                  aspectRatio: "625 / 380",
-                  maxHeight: "300px",
-                }}
-              >
-                <img
-                  onClick={() => window.open(project.link, "_blank")}
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-contain cursor-pointer dark:brightness-85 rounded-md"
-                  loading="lazy"
-                />
-              </div>
-              <div className="text-center text-lg font-['Generic-G50'] text-black dark:text-white">
-                <h3
-                  className="mb-2 pb-0 cursor-default tracking-wider dark:brightness-85 dark:hover:text-gray-300"
-                  style={{
-                    fontSize: `${Math.min(cardWidth / 20, 1.5)}rem`,
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <p
-                  className="opacity-100 mb-2 cursor-default max-w-md dark:brightness-85"
-                  style={{
-                    fontSize: `${Math.min(cardWidth / 25, 1.125)}rem`,
-                  }}
-                >
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Navigation and Auto-Scroll Controls */}
-      <div className="mt-4 sm:mt-6 transform translate-y-5 text-center flex justify-center items-center gap-4">
-        <span
-          onClick={scrollLeft}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
-        >
-          LEFT
-        </span>
-        <span
+              {projects.map((project, index) => renderProjectCard(project, index))}
+            </Marquee>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="carousel"
+            ref={carousel}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            drag="x"
+            whileDrag={{ scale: 0.95 }}
+            dragElastic={0.2}
+            dragConstraints={{ right: 0, left: -width }}
+            dragTransition={{ bounceDamping: 30 }}
+            onDrag={handleDrag}
+            className="flex will-change-transform cursor-grab active:cursor-grabbing"
+          >
+            {projects.map((project, index) => renderProjectCard(project, index))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="flex justify-center mt-4">
+        <p
           onClick={toggleAutoScroll}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
+          className="text-black dark:text-white underline cursor-pointer hover:opacity-80 transition-opacity duration-200"
         >
-          AUTO-SCROLL: {isAutoScroll ? "ON" : "OFF"}
-        </span>
-        <span
-          onClick={scrollRight}
-          className="underline cursor-pointer text-black dark:text-white dark:brightness-85 transition-all duration-200"
-        >
-          RIGHT
-        </span>
+          {isAutoScroll ? "Auto-Scroll: ON" : "Auto-Scroll: OFF"}
+        </p>
       </div>
-
-      <style jsx>{`
-        .embla {
-          overflow: hidden;
-        }
-        .embla__container {
-          display: flex;
-        }
-        .embla__slide {
-          flex: 0 0 auto;
-        }
-        @media (max-width: 640px) {
-          .embla__slide {
-            min-width: 300px; /* Adjust for smaller screens */
-          }
-        }
-      `}</style>
     </div>
   );
 }
