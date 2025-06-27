@@ -64,32 +64,27 @@ const projects = [
 
 function Projects() {
   const [width, setWidth] = useState(0);
-  const [cardWidth, setCardWidth] = useState(40); // Initial width in vw
-  const [isAutoScroll, setIsAutoScroll] = useState(true); // Toggle for auto-scroll
-  const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
-  const [isDesktop, setIsDesktop] = useState(true); // Track device type
+  const [cardWidth, setCardWidth] = useState(40);
+  const [isAutoScroll, setIsAutoScroll] = useState(true);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const carousel = useRef(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page on render
-  }, []);
-
-  useEffect(() => {
-    const checkDevice = () => {
-      const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-      const windowWidth = window.innerWidth;
-      setIsDesktop(windowWidth > 768 && !isTouchDevice); // Desktop: wider than 768px and no touch
+    window.scrollTo(0, 0);
+    
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
     };
-
-    checkDevice(); // Initial check
-    window.addEventListener("resize", checkDevice);
-    return () => window.removeEventListener("resize", checkDevice);
+    
+    checkIfMobile();
+    window.addEventListener('resize', checkIfMobile);
+    return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
 
   useEffect(() => {
     if (carousel.current && !isAutoScroll) {
       setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-      // Restore scroll position when switching back to drag/scroll mode
       carousel.current.scrollLeft = scrollPosition;
     }
   }, [carousel, isAutoScroll, scrollPosition]);
@@ -97,30 +92,21 @@ function Projects() {
   useEffect(() => {
     const handleResize = () => {
       const windowWidth = window.innerWidth;
-      let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45); // Scale between 35vw and 45vw
+      let newWidth = Math.min(Math.max(windowWidth / 35, 35), 45);
       setCardWidth(newWidth);
     };
 
-    handleResize(); // Initial call
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Update scroll position on drag or scroll
   const handleDrag = (e, info) => {
     if (carousel.current) {
       setScrollPosition(carousel.current.scrollLeft - info.offset.x);
     }
   };
 
-  // Update scroll position on scroll (for mobile)
-  const handleScroll = () => {
-    if (carousel.current) {
-      setScrollPosition(carousel.current.scrollLeft);
-    }
-  };
-
-  // Update scroll position during marquee animation
   const handleMarqueeUpdate = () => {
     if (carousel.current) {
       setScrollPosition(carousel.current.scrollLeft);
@@ -164,7 +150,7 @@ function Projects() {
         <div className="text-center text-lg font-['Generic-G50'] text-black dark:text-white">
           <h3
             className={`mb-2 pb-0 tracking-wider dark:brightness-85 select-none ${
-              isAutoScroll ? "cursor-default" : isDesktop ? "cursor-grab" : "cursor-default"
+              isAutoScroll ? "cursor-default" : "cursor-grab"
             }`}
             style={{
               fontSize: `${Math.min(cardWidth / 20, 1.5)}rem`,
@@ -174,7 +160,7 @@ function Projects() {
           </h3>
           <p
             className={`opacity-100 mb-2 max-w-md dark:brightness-85 select-none ${
-              isAutoScroll ? "cursor-default" : isDesktop ? "cursor-grab" : "cursor-default"
+              isAutoScroll ? "cursor-default" : "cursor-grab"
             }`}
             style={{
               fontSize: `${Math.min(cardWidth / 25, 1.125)}rem`,
@@ -187,7 +173,6 @@ function Projects() {
     </motion.div>
   );
 
-  // Animation variants for subtle fade-in transition
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.6, ease: "easeInOut" } },
@@ -222,14 +207,18 @@ function Projects() {
             initial="hidden"
             animate="visible"
             exit="exit"
-            drag={isDesktop ? "x" : false}
-            dragConstraints={isDesktop ? { right: 0, left: -width } : false}
-            dragTransition={isDesktop ? { bounceDamping: 30 } : false}
-            dragElastic={isDesktop ? 0.5 : false}
-            onDrag={isDesktop ? handleDrag : undefined}
-            onScroll={isDesktop ? undefined : handleScroll}
-            className={`flex will-change-transform ${isDesktop ? "cursor-grab active:cursor-grabbing" : "overflow-x-auto"}`}
-            style={{ scrollBehavior: isDesktop ? "auto" : "smooth" }}
+            drag={!isMobile ? "x" : false}
+            dragConstraints={!isMobile ? { right: 0, left: -width } : undefined}
+            dragTransition={!isMobile ? { bounceDamping: 30 } : undefined}
+            dragElastic={!isMobile ? 0.5 : undefined}
+            onDrag={!isMobile ? handleDrag : undefined}
+            className={`flex will-change-transform ${
+              !isMobile ? "cursor-grab active:cursor-grabbing" : "overflow-x-auto"
+            }`}
+            style={{
+              scrollSnapType: isMobile ? "x mandatory" : undefined,
+              WebkitOverflowScrolling: isMobile ? "touch" : undefined,
+            }}
           >
             {projects.map((project, index) => renderProjectCard(project, index))}
           </motion.div>
