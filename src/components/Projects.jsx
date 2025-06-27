@@ -204,7 +204,8 @@ function Projects() {
             exit="exit"
             drag="x"
             dragConstraints={{ right: 0, left: -width }}
-            dragTransition={{ bounceDamping: 30 }}
+            dragTransition={{ bounceDamping: 30 }} 
+            dragElastic={0.5}
             onDrag={handleDrag}
             className="flex will-change-transform cursor-grab active:cursor-grabbing"
           >
