@@ -1,9 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { useState } from 'react';
 
 function About() {
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center transform translate-y-3">
@@ -20,7 +18,7 @@ function About() {
         <a href="mailto:valentino.ivanovski@icloud.com"> <u className=' text-black dark:text-white'>reach out.</u></a><br/>
       </p>
       <div className="flex space-x-4 mt-4">
-        <a href="https://instagram.com/valentino.ivanovski" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.instagram.com/tinou0_/" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faInstagram} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
         </a>
         <a href="https://github.com/valentino-ivanovski" target="_blank" rel="noopener noreferrer">
