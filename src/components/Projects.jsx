@@ -20,16 +20,16 @@ const projects = [
     link: "https://soundshlft.vercel.app",
   },
   {
-    title: "I 💚 MY BIKE",
-    image: ilovemybike,
-    description: "Online bike store with product listings, cart, and checkout using React and Supabase.",
-    link: "https://ilovemybike.vercel.app",
-  },
-  {
     title: "Isa's Kombucha",
     image: Isa,
     description: "Official redesign of Isa's Kombucha site using Next.js, Tailwind CSS, and Framer Motion.",
     link: "https://isa-kombucha.vercel.app",
+  },
+  {
+    title: "I 💚 MY BIKE",
+    image: ilovemybike,
+    description: "Online bike store with product listings, cart, and checkout using React and Supabase.",
+    link: "https://ilovemybike.vercel.app",
   },
   {
     title: "Yacht Moment",
