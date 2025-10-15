@@ -10,8 +10,21 @@ import TodoListImage from "../assets/untitled folder/todolist.webp";
 import YachtImage from "../assets/untitled folder/yacht.webp";
 import OneRoofing from "../assets/untitled folder/one.webp";
 import Isa from "../assets/untitled folder/isa.webp";
+import ilovemybike from "../assets/untitled folder/ilovemybike.webp";
 
 const projects = [
+  {
+    title: "Soundshift",
+    image: SoundshiftImage,
+    description: "Music discovery platform with user profiles, recommendations, and YouTube embedding.",
+    link: "https://soundshlft.vercel.app",
+  },
+  {
+    title: "I 💚 MY BIKE",
+    image: ilovemybike,
+    description: "Online bike store with product listings, cart, and checkout using React and Supabase.",
+    link: "https://ilovemybike.vercel.app",
+  },
   {
     title: "Isa's Kombucha",
     image: Isa,
@@ -31,6 +44,12 @@ const projects = [
     link: "https://one-roofing.vercel.app",
   },
   {
+    title: "Real Estate Landing Page",
+    image: RealEstateImage,
+    description: "Responsive real estate page with modern design using HTML, CSS, and JS.",
+    link: "https://luxestate-project.netlify.app",
+  },
+  {
     title: "Mandelbrot Set Explorer",
     image: MandelbrotImage,
     description: "Java GUI for exploring the Mandelbrot Set in sequential, parallel, or distributed mode.",
@@ -41,18 +60,6 @@ const projects = [
     image: PokedexImage,
     description: "React Pokédex with search, pagination, and Pokémon details using PokéAPI.",
     link: "https://tino-pokedex.netlify.app",
-  },
-  {
-    title: "Real Estate Landing Page",
-    image: RealEstateImage,
-    description: "Responsive real estate page with modern design using HTML, CSS, and JS.",
-    link: "https://luxestate-project.netlify.app",
-  },
-  {
-    title: "Soundshift",
-    image: SoundshiftImage,
-    description: "Music discovery platform with user profiles, recommendations, and YouTube embedding.",
-    link: "https://github.com/valentino-ivanovski/Soundshift",
   },
   {
     title: "Evil Pushup Challenge",
@@ -120,7 +127,7 @@ function Projects() {
   const renderProjectCard = (project, index) => (
     <motion.div
       key={index}
-      className="min-w-[20rem] min-h-[25rem] p-2"
+      className="min-w-[20rem] min-h-[25rem] p-2 ml-10"
       style={{
         width: `${cardWidth}vw`,
         minWidth: "500px",
