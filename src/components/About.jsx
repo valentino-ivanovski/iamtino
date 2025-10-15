@@ -17,17 +17,19 @@ function About() {
         </a>  or
         <a href="mailto:valentino.ivanovski@icloud.com"> <u className=' text-black dark:text-white'>reach out.</u></a><br/>
       </p>
-      <div className="flex space-x-4 mt-4">
-        <a href="https://www.instagram.com/tinou0_/" target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faInstagram} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
-        </a>
-        <a href="https://github.com/valentino-ivanovski" target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faGithub} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
-        </a>
-        <a href="https://linkedin.com/in/valentino-ivanovski" target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faLinkedin} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
-        </a>
-      </div>
+      {/* 
+<div className="flex space-x-4 mt-4">
+  <a href="https://www.instagram.com/tinou0_/" target="_blank" rel="noopener noreferrer">
+    <FontAwesomeIcon icon={faInstagram} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
+  </a>
+  <a href="https://github.com/valentino-ivanovski" target="_blank" rel="noopener noreferrer">
+    <FontAwesomeIcon icon={faGithub} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
+  </a>
+  <a href="https://linkedin.com/in/valentino-ivanovski" target="_blank" rel="noopener noreferrer">
+    <FontAwesomeIcon icon={faLinkedin} size="2x" className="text-black dark:brightness-85 dark:text-white hover:text-gray-700 dark:hover:text-gray-300" />
+  </a>
+</div>
+*/}
     </div>
   );
 }
