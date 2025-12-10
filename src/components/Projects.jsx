@@ -6,11 +6,10 @@ import PokedexImage from "../assets/untitled folder/pokedex.webp";
 import RealEstateImage from "../assets/untitled folder/realestate.webp";
 import SoundshiftImage from "../assets/untitled folder/soundshift.webp";
 import PushupsImage from "../assets/untitled folder/pushups.webp";
-import TodoListImage from "../assets/untitled folder/todolist.webp";
 import YachtImage from "../assets/untitled folder/yacht.webp";
 import OneRoofing from "../assets/untitled folder/one.webp";
 import Isa from "../assets/untitled folder/isa.webp";
-import ilovemybike from "../assets/untitled folder/ilovemybike.webp";
+import ilovemybike from "../assets/untitled folder/bike.avif";
 
 const projects = [
   {
